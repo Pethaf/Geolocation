@@ -21,6 +21,7 @@ function displayLocation(position)
 	var locationDiv = document.getElementById("location");
 	locationDiv.innerHTML = "Current position: " + 
 	"Latitude: " + latitude + ", Longitude: " + longitude;
+	locationDiv.innerHTML += " (with " + position.coords.accuracy + " meters accuracy )"; 
 	var distanceDiv = document.getElementById("distance");
 	distanceDiv.innerHTML = "Distance to target: " + Math.round(calcDistance(latitude,longitude)) + " km";
 	showMap(position.coords);
@@ -46,7 +47,7 @@ function showMap(coords)
 							 mapTypeId: 'roadmap'};
 	var mapDiv = document.getElementById("map");
 	map = new google.maps.Map(mapDiv, googleMapOptions);
-	addMarker(map, googleCords, "Starting", "Start of the yourney")
+	addMarker(map, googleCords, "Starting", "Start of the journey"
 	addMarker(map, new google.maps.LatLng(targetLatitude, targetLongitude), "Goal", "The journey ends here");
 
 }
