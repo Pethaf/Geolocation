@@ -1,6 +1,7 @@
 window.onload = getMyLocation;
 var targetLatitude = 32.627778
 var targetLongitude = 129.738333
+var map = null;
 function getMyLocation()
 {
 	if (navigator.geolocation)
@@ -22,6 +23,7 @@ function displayLocation(position)
 	"Latitude: " + latitude + ", Longitude: " + longitude;
 	var distanceDiv = document.getElementById("distance");
 	distanceDiv.innerHTML = "Distance to target: " + Math.round(calcDistance(latitude,longitude)) + " km";
+	showMap(position.coords);
 }
 function calcDistance(latitude, longitude) 
 {
@@ -35,6 +37,41 @@ function calcDistance(latitude, longitude)
 	 			   Math.cos(startLongRads - destLongRads))*radiusOfEarth;
 	return distance;
 }
+
+function showMap(coords)
+{
+	var googleCords = new google.maps.LatLng(coords.latitude, coords.longitude);
+	var googleMapOptions = { zoom: 10, 
+							 center: googleCords, 
+							 mapTypeId: 'roadmap'};
+	var mapDiv = document.getElementById("map");
+	map = new google.maps.Map(mapDiv, googleMapOptions);
+	addMarker(map, googleCords, "Starting", "Start of the yourney")
+	addMarker(map, new google.maps.LatLng(targetLatitude, targetLongitude), "Goal", "The journey ends here");
+
+}
+function addMarker(map, latlong, title, content) {
+	var markerOptions = {
+		position: latlong,
+		map: map,
+		title: title,
+		clickable: true
+	};
+	var marker = new google.maps.Marker(markerOptions);
+
+	var infoWindowOptions = {
+		content: content,
+		position: latlong
+	};
+
+	var infoWindow = new google.maps.InfoWindow(infoWindowOptions);
+
+	google.maps.event.addListener(marker, 'click', function() {
+		infoWindow.open(map);
+	});
+}
+
+
 function displayError(errorObject)
 {
 	var errorLookup = {
