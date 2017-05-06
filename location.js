@@ -47,7 +47,7 @@ function showMap(coords)
 							 mapTypeId: 'roadmap'};
 	var mapDiv = document.getElementById("map");
 	map = new google.maps.Map(mapDiv, googleMapOptions);
-	addMarker(map, googleCords, "Starting", "Start of the journey"
+	addMarker(map, googleCords, "Starting", "Start of the journey");
 	addMarker(map, new google.maps.LatLng(targetLatitude, targetLongitude), "Goal", "The journey ends here");
 
 }
